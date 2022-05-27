@@ -132,4 +132,14 @@ services:
     restart: always
     ports:
     - "9100:9100"
-    
+  logstash:
+    image: 192.168.3.201:80/library/logstash:7.13.0
+    container_name: kong-logstash
+    restart: always
+    privileged: true
+    volumes:
+      - ./conf/logstash/logstash-springboot.conf:/usr/share/logstash/pipeline/logstash.conf #挂载logstash的配置文件
+      - /mnt/kong/logs:/mnt/kong/logs
+    ports:
+      - 4560:4560
+    dns: 192.168.3.201
